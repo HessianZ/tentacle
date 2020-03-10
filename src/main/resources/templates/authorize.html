@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>authorize</title>
+</head>
+<body>
+  <form id="mainForm" method="post">
+    <input type="hidden" name="client_id" th:value="${context.request().params().get('client_id')}">
+    <input type="hidden" name="state" th:value="${context.request().params().get('state')}">
+    <input type="hidden" name="redirect_uri" th:value="${context.request().params().get('redirect_uri')}">
+    <p>
+      <label>Username <input name="username"></label>
+    </p>
+    <p>
+      <label>Password <input name="password"></label>
+    </p>
+    <p>
+      <button>Submit</button>
+    </p>
+  </form>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+POST http://localhost:8890/skill-api
+Host: localhost:8890
+Content-Type: application/x-www-form-urlencoded
+Host: hessian.cn
+X-Xiaomi-Date: Fri, 6 Mar 2020 15:00:28 GMT
+Content-MD5: RxJ9RJ/o02A4Ly3K+fo0ZA==
+Authorization: MIAI-HmacSHA256-V1 2k3SNzRMN8KncT+AoDcjrQ==::ac0b3a3e80349dffa83e2d1bc54cccc7a048946239ad47e386a458b8982dac4e
+User-Agent: AHC/2.0
+Accept: */*
+Cache-Control: no-cache
+Postman-Token: 604bd32e-0014-4db2-87e6-aaa1a15c3209,e62540dc-ef92-40bb-8103-7142d87ff9db
+Accept-Encoding: gzip, deflate
+Content-Length: 975
+Connection: keep-alive
+cache-control: no-cache
+
+{"version":"1.0","session":{"is_new":false,"session_id":"553276583931288576_278a964c21ce478884901604f9ba5f86","application":{"app_id":"553276583931288576"},"user":{"user_id":"ScBdGDn1FeJuiB14YjC1nw==","is_user_login":true,"gender":"unknown"}},"request":{"type":0,"request_id":"a800d0a3cf7e417ca27bc7ae6bf0cb40","timestamp":1583506828713,"intent":{"query":"启动电脑","score":0.800000011920929,"complete":true,"domain":"openplatform","confidence":1,"skillType":"Custom","sub_domain":"1017191","app_id":"553276583931288576","request_type":"Start","need_fetch_token":false,"slots":"{\"intent_name\":\"PowerOn\",\"slots\":[{\"name\":\"target\",\"value\":\"电脑\",\"raw_value\":\"电脑\"}]}"},"locale":"zh-CN","slot_info":{"intent_name":"PowerOn","slots":[{"name":"target","value":"电脑","raw_value":"电脑"}]},"is_monitor":true},"query":"启动电脑","context":{"device_id":"HUXLQYdeZQp70DC+Uk6n2A==","user_agent":"AHC/2.0","device_category":"soundbox","in_exp":false}}
+
+###
+
+POST http://localhost:8890/skill-api
+Host: localhost:8890
+Content-Type: application/x-www-form-urlencoded
+Host: hessian.cn
+X-Xiaomi-Date: Fri, 6 Mar 2020 15:00:28 GMT
+Content-MD5: RxJ9RJ/o02A4Ly3K+fo0ZA==
+Authorization: MIAI-HmacSHA256-V1 2k3SNzRMN8KncT+AoDcjrQ==::ac0b3a3e80349dffa83e2d1bc54cccc7a048946239ad47e386a458b8982dac4e
+User-Agent: AHC/2.0
+Accept: */*
+Cache-Control: no-cache
+Postman-Token: 604bd32e-0014-4db2-87e6-aaa1a15c3209,e62540dc-ef92-40bb-8103-7142d87ff9db
+Accept-Encoding: gzip, deflate
+Content-Length: 975
+Connection: keep-alive
+cache-control: no-cache
+
+{"version":"1.0","session":{"is_new":false,"session_id":"553276583931288576_278a964c21ce478884901604f9ba5f86","application":{"app_id":"553276583931288576"},"user":{"user_id":"ScBdGDn1FeJuiB14YjC1nw==","is_user_login":true,"gender":"unknown"}},"request":{"type":0,"request_id":"a800d0a3cf7e417ca27bc7ae6bf0cb40","timestamp":1583506828713,"intent":{"query":"启动电脑","score":0.800000011920929,"complete":true,"domain":"openplatform","confidence":1,"skillType":"Custom","sub_domain":"1017191","app_id":"553276583931288576","request_type":"Start","need_fetch_token":false,"slots":"{\"intent_name\":\"PowerOn\",\"slots\":[{\"name\":\"target\",\"value\":\"电脑\",\"raw_value\":\"电脑\"}]}"},"locale":"zh-CN","slot_info":{"intent_name":"PowerOn","slots":[{"name":"target","value":"电脑","raw_value":"电脑"}]},"is_monitor":true},"query":"启动电脑","context":{"device_id":"HUXLQYdeZQp70DC+Uk6n2A==","user_agent":"AHC/2.0","device_category":"soundbox","in_exp":false}}
+
+###
+
+POST http://localhost:8890/skill-api
+Host: localhost:8890
+Content-Type: application/x-www-form-urlencoded
+Host: hessian.cn
+X-Xiaomi-Date: Fri, 6 Mar 2020 15:00:28 GMT
+Content-MD5: RxJ9RJ/o02A4Ly3K+fo0ZA==
+Authorization: MIAI-HmacSHA256-V1 2k3SNzRMN8KncT+AoDcjrQ==::ac0b3a3e80349dffa83e2d1bc54cccc7a048946239ad47e386a458b8982dac4e
+User-Agent: AHC/2.0
+Accept: */*
+Cache-Control: no-cache
+Postman-Token: 604bd32e-0014-4db2-87e6-aaa1a15c3209,e62540dc-ef92-40bb-8103-7142d87ff9db
+Accept-Encoding: gzip, deflate
+Content-Length: 975
+Connection: keep-alive
+cache-control: no-cache
+
+{"version":"1.0","session":{"is_new":false,"session_id":"553276583931288576_278a964c21ce478884901604f9ba5f86","application":{"app_id":"553276583931288576"},"user":{"user_id":"ScBdGDn1FeJuiB14YjC1nw==","is_user_login":true,"gender":"unknown"}},"request":{"type":0,"request_id":"a800d0a3cf7e417ca27bc7ae6bf0cb40","timestamp":1583506828713,"intent":{"query":"启动电脑","score":0.800000011920929,"complete":true,"domain":"openplatform","confidence":1,"skillType":"Custom","sub_domain":"1017191","app_id":"553276583931288576","request_type":"Start","need_fetch_token":false,"slots":"{\"intent_name\":\"PowerOn\",\"slots\":[{\"name\":\"target\",\"value\":\"电脑\",\"raw_value\":\"电脑\"}]}"},"locale":"zh-CN","slot_info":{"intent_name":"PowerOn","slots":[{"name":"target","value":"电脑","raw_value":"电脑"}]},"is_monitor":true},"query":"启动电脑","context":{"device_id":"HUXLQYdeZQp70DC+Uk6n2A==","user_agent":"AHC/2.0","device_category":"soundbox","in_exp":false}}
+
+###
+

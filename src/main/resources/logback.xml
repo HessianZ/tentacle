@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+  <!--为了防止进程退出时，内存中的数据丢失，请加上此选项-->
+  <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+
+  <!--info 日志-->
+  <appender name="fileInfoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- encoder defaults to ch.qos.logback.classic.encoder.PatternLayoutEncoder -->
+    <encoder>
+      <pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{40}:%line - %msg%n</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${LOG_PATH}/info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+      <maxHistory>15</maxHistory>
+
+      <timeBasedFileNamingAndTriggeringPolicy
+        class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+        <!--日志文件大小-->
+        <maxFileSize>30 MB</maxFileSize>
+        <!--日志保留天数-->
+      </timeBasedFileNamingAndTriggeringPolicy>
+
+    </rollingPolicy>
+  </appender>
+
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%date{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{40}:%line - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- 可用来获取StatusManager中的状态-->
+  <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener"/>
+
+
+  <logger name="cn.hessian" level="DEBUG"/>
+
+  <root level="DEBUG">
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="fileInfoLog"/>
+  </root>
+
+
+</configuration>
