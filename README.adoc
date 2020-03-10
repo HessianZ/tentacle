@@ -1,8 +1,11 @@
-= Xiaoai
+= 小爱触手怪[手动doge]
 
 image:https://img.shields.io/badge/vert.x-3.8.5-purple.svg[link="https://vertx.io"]
 
-This application was generated using http://start.vertx.io
+本项目实现了小爱开放平台的自定义技能接口，实现了可通过小爱同学语音指令执行服务器动作，如：发起HTTP请求或执行SSH命令。
+
+本项目使用 http://start.vertx.io 生成
+
 
 == Building
 
@@ -22,10 +25,9 @@ To run your application:
 ```
 
 == Help
-
+* https://xiaoai.mi.com/documents/Home?type=/api/doc/render_markdown/SkillAccess/SkillDocument/CustomSkills/CustomSkillsMain [自定义技能介绍 - 小爱开放平台]
 * https://vertx.io/docs/[Vert.x Documentation]
 * https://stackoverflow.com/questions/tagged/vert.x?sort=newest&pageSize=15[Vert.x Stack Overflow]
 * https://groups.google.com/forum/?fromgroups#!forum/vertx[Vert.x User Group]
 * https://gitter.im/eclipse-vertx/vertx-users[Vert.x Gitter]
-
 
