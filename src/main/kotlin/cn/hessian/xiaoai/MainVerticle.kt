@@ -4,6 +4,7 @@ import cn.hessian.xiaoai.controller.*
 import cn.hessian.xiaoai.controller.AuthHandler
 import cn.hessian.xiaoai.exception.BusinessException
 import cn.hessian.xiaoai.exception.GenericError
+import cn.hessian.xiaoai.repository.AuthUserRepository
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
@@ -14,7 +15,7 @@ import io.vertx.ext.web.Route
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
 import io.vertx.ext.web.handler.*
-import io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine
+import io.vertx.ext.web.sstore.SessionStore
 import io.vertx.kotlin.core.http.listenAwait
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 import io.vertx.kotlin.coroutines.dispatcher
@@ -73,7 +74,6 @@ class MainVerticle : CoroutineVerticle() {
     val skillApiHandler = SkillApiHandler(vertx)
     val oAuthHandler = OAuthHandler(vertx)
     val authHandler = AuthHandler(vertx)
-
     router.route()
       .handler(ResponseTimeHandler.create())
       .handler(LoggerHandler.create())
@@ -93,14 +93,6 @@ class MainVerticle : CoroutineVerticle() {
     // 请求授权页面
 //    router.get("/account/authorize").handler(StaticHandler.create("/authorize.html"))
 
-    // https://vertx.io/docs/vertx-web/kotlin/#_templates
-    // 实际上并没有放context对象进去
-    // 参见：io.vertx.ext.web.handler.impl.TemplateHandlerImpl.handle 72行
-    router.get("/oauth/authorize").handler {
-      it.data()["context"] = it
-      it.next()
-    }.handler(TemplateHandler.create(ThymeleafTemplateEngine.create(vertx), "templates/authorize.html", TemplateHandler.DEFAULT_CONTENT_TYPE))
-
     // 提交登录
     router.post("/oauth/authorize").coroutineHandler(oAuthHandler::authorize)
     router.post("/oauth/access-token").coroutineHandler(oAuthHandler::accessToken)
@@ -108,11 +100,12 @@ class MainVerticle : CoroutineVerticle() {
 
     router.route().path("/skill-api").coroutineHandler(skillApiHandler::handle)
 
+    val sessionHandler = SessionHandler.create(SessionStore.create(vertx)).setAuthProvider(AuthUserRepository)
+    router.route("/auth/*").handler(sessionHandler)
     router.route("/auth/login").apiHandler(authHandler::login)
     router.route("/auth/register").apiHandler(authHandler::register)
-
-    ActionHandler(vertx).bindRouter(router)
-    UserManageHandler(vertx).bindRouter(router)
+    ActionHandler(vertx).bindRouter(router, sessionHandler)
+    UserManageHandler(vertx).bindRouter(router, sessionHandler)
 
     val port = config.getInteger("http.port", 8890)
 

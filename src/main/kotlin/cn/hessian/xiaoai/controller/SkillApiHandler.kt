@@ -46,8 +46,8 @@ class SkillApiHandler (vertx: Vertx) {
     val request = context.request()
     val localSigned = SignatureUtil.generateSign(
       request.method().name.toUpperCase(),
-      "/xiao-ai" + request.path(),
-//      request.path(),
+//      "/xiao-ai" + request.path(),
+      request.path(),
       request.query() ?: "",
       request.getHeader("X-Xiaomi-Date") ?: "",
       request.getHeader("Host") ?: "",

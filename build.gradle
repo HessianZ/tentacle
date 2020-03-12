@@ -34,8 +34,7 @@ dependencies {
   implementation "io.vertx:vertx-pg-client:$vertxVersion"
   implementation "io.vertx:vertx-lang-kotlin-coroutines:$vertxVersion"
   implementation "io.vertx:vertx-lang-kotlin:$vertxVersion"
-  implementation "io.vertx:vertx-web-templ-thymeleaf:$vertxVersion"
-  implementation "io.vertx:vertx-config:$vertxVersion"
+//  implementation "io.vertx:vertx-config:$vertxVersion"
   implementation 'ch.qos.logback:logback-classic:1.2.3'
   implementation 'commons-codec:commons-codec:1.14'
   compile group: 'com.jcraft', name: 'jsch', version: '0.1.55'

@@ -22,6 +22,7 @@ class AuthHandler (val vertx: Vertx) {
     if (user.password != AuthUser.hashPassword(password)) {
       throw AuthError.WRONG_PASSWORD.throwable
     }
+    routingContext.setUser(user)
 
     log.info("User logged in. #{} {}", user.id, user.username)
 
@@ -39,7 +40,7 @@ class AuthHandler (val vertx: Vertx) {
 
   suspend fun register(routingContext: RoutingContext): AuthUser {
     val newUser = routingContext.bodyAsJson.mapTo(AuthUser::class.java)
-    newUser.password = AuthUser.hashPassword(newUser.password!!)
+    newUser.password = AuthUser.hashPassword(routingContext.bodyAsJson.getString("password")!!)
     newUser.status = AuthUser.UserStatus.ENABLED
 
      AuthUserRepository.insert(newUser)

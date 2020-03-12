@@ -23,5 +23,7 @@ enum class GenericError(override val code: Int, override val message: String) : 
 
 enum class AuthError(override val code: Int, override val message: String) : ApiBusinessError {
   USER_NOT_FOUND(1000, "用户不存在"),
-  WRONG_PASSWORD(1001, "密码错误");
+  WRONG_PASSWORD(1001, "密码错误"),
+  USER_NOT_LOGGED_IN(1002, "用户未登录");
+
 }
