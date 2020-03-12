@@ -1,4 +1,4 @@
-package cn.hessian.xiaoai.handler
+package cn.hessian.xiaoai.controller
 
 import cn.hessian.xiaoai.*
 import cn.hessian.xiaoai.domain.Action
@@ -36,7 +36,7 @@ class SkillApiHandler (vertx: Vertx) {
 
   private val commandRunner = CommandRunner(vertx)
 
-  private fun checkSign(context: RoutingContext, secret: String) : Boolean {
+  private fun checkSign(context: RoutingContext) : Boolean {
 
     // e.g. MIAI-HmacSHA256-V1 2k3SNzRMN8KncT+AoDcjrQ==::4b9d22c32142d71776103c5e58226ff06e5a592c28b0d5c113409e0eb37c20e4
     val authorization = context.request().getHeader("Authorization")?: ""
@@ -46,14 +46,14 @@ class SkillApiHandler (vertx: Vertx) {
     val request = context.request()
     val localSigned = SignatureUtil.generateSign(
       request.method().name.toUpperCase(),
-//      "/xiao-ai" + request.path(),
-      request.path(),
+      "/xiao-ai" + request.path(),
+//      request.path(),
       request.query() ?: "",
       request.getHeader("X-Xiaomi-Date") ?: "",
       request.getHeader("Host") ?: "",
       request.getHeader("Content-Type") ?: "",
       request.getHeader("Content-MD5") ?: "",
-      secret
+      Config.APP_SECRET
     )
 
     val res = signature == localSigned
@@ -82,7 +82,7 @@ class SkillApiHandler (vertx: Vertx) {
       log.debug(" -- {} : {}", it.key, it.value)
     }
 
-    if (!checkSign(routingContext, Config.APP_SECRET)) {
+    if (!checkSign(routingContext)) {
       routingContext.fail(HttpResponseStatus.FORBIDDEN.code(), Exception("Signature mismatch"))
       return
     }
@@ -104,19 +104,19 @@ class SkillApiHandler (vertx: Vertx) {
       log.info("user: {} -> {}", accessToken, user)
 
       user?.let {
-        ActionRepository.getUserAction(user.id, query)?.let { action ->
+        ActionRepository.getUserAction(user.id!!, query)?.let { action ->
 
           val start = System.currentTimeMillis()
 
           when (action.type) {
             Action.ActionType.SSH -> {
-              val cmd = SshCommand(action.command)
+              val cmd = SshCommand(action.command!!)
               log.info("RUN -> {}", cmd)
               val result = commandRunner.run(cmd)
               log.info("RESULT -> {}", result)
             }
             Action.ActionType.HTTP -> {
-              val cmd = HttpCommand(action.command)
+              val cmd = HttpCommand(action.command!!)
               log.info("RUN -> {}", cmd)
               val result = commandRunner.run(cmd)
               log.info("RESULT -> {}", result)

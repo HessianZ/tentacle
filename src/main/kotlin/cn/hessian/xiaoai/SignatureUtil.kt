@@ -1,8 +1,7 @@
 package cn.hessian.xiaoai
 
-import org.apache.commons.codec.binary.Base64
-import org.apache.commons.codec.binary.Hex
 import org.slf4j.LoggerFactory
+import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -40,11 +39,40 @@ object SignatureUtil {
   }
 
   fun encodeByHmacSHA256(textToSign: String, secretKey: String): String {
-    val signingKey = SecretKeySpec(Base64.decodeBase64(secretKey), "HmacSHA256")
+    val signingKey = SecretKeySpec(Base64.getDecoder().decode(secretKey), "HmacSHA256")
     val mac = Mac.getInstance("HmacSHA256")
     mac.init(signingKey)
     val bytes = mac.doFinal(textToSign.toByteArray(Charsets.UTF_8))
-    return Hex.encodeHexString(bytes)
+    return String(encodeHex(bytes, DIGITS_LOWER))
   }
 
+  /**
+   * Used to build output as Hex
+   */
+  private val DIGITS_LOWER = charArrayOf(
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
+    'e', 'f'
+  )
+
+  /**
+   * Used to build output as Hex
+   */
+  private val DIGITS_UPPER = charArrayOf(
+    '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
+    'E', 'F'
+  )
+
+  fun encodeHex(data: ByteArray, toDigits: CharArray): CharArray {
+    val l = data.size
+    val out = CharArray(l shl 1)
+    // two characters form the hex value.
+    var i = 0
+    var j = 0
+    while (i < l) {
+      out[j++] = toDigits[0xF0 and data[i].toInt() ushr 4]
+      out[j++] = toDigits[0x0F and data[i].toInt()]
+      i++
+    }
+    return out
+  }
 }

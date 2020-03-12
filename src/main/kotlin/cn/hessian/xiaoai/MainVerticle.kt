@@ -1,9 +1,15 @@
 package cn.hessian.xiaoai
 
-import cn.hessian.xiaoai.handler.AuthHandler
-import cn.hessian.xiaoai.handler.OAuthHandler
-import cn.hessian.xiaoai.handler.SkillApiHandler
+import cn.hessian.xiaoai.controller.*
+import cn.hessian.xiaoai.controller.AuthHandler
+import cn.hessian.xiaoai.exception.BusinessException
+import cn.hessian.xiaoai.exception.GenericError
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
 import io.netty.handler.codec.http.HttpResponseStatus
+import io.vertx.core.json.Json
+import io.vertx.core.json.jackson.DatabindCodec
 import io.vertx.ext.web.Route
 import io.vertx.ext.web.Router
 import io.vertx.ext.web.RoutingContext
@@ -12,9 +18,9 @@ import io.vertx.ext.web.templ.thymeleaf.ThymeleafTemplateEngine
 import io.vertx.kotlin.core.http.listenAwait
 import io.vertx.kotlin.coroutines.CoroutineVerticle
 import io.vertx.kotlin.coroutines.dispatcher
+import kotlinx.coroutines.launch
 import org.slf4j.LoggerFactory
 import java.util.*
-import kotlinx.coroutines.launch
 
 
 class MainVerticle : CoroutineVerticle() {
@@ -36,11 +42,34 @@ class MainVerticle : CoroutineVerticle() {
     }
   }
 
+  fun Route.apiHandler(fn: suspend (RoutingContext) -> Any?) {
+    handler { ctx ->
+      launch(ctx.vertx().dispatcher()) {
+        ctx.response()
+          .putHeader("Content-Type", "application/json")
+        lateinit var response : ApiResponse
+        try {
+          response = ApiResponse.success(fn(ctx))
+        } catch (e: BusinessException) {
+          response = ApiResponse.fail(e.message, e.code)
+        } catch (e: Exception) {
+          log.error(e.message, e)
+          response = ApiResponse.fail(GenericError.ERROR)
+        }
+        ctx.response().end(Json.encode(response))
+      }
+    }
+  }
+
   override suspend fun start() {
     Locale.setDefault(Locale.ENGLISH)
 
-    val router = Router.router(vertx)
+    DatabindCodec.mapper()
+      .registerModule(ParameterNamesModule())
+      .registerModule(Jdk8Module())
+      .registerModule(JavaTimeModule())
 
+    val router = Router.router(vertx)
     val skillApiHandler = SkillApiHandler(vertx)
     val oAuthHandler = OAuthHandler(vertx)
     val authHandler = AuthHandler(vertx)
@@ -79,8 +108,11 @@ class MainVerticle : CoroutineVerticle() {
 
     router.route().path("/skill-api").coroutineHandler(skillApiHandler::handle)
 
-    router.route("/auth/login").coroutineHandler(authHandler::login)
-    router.route("/auth/register").coroutineHandler(authHandler::register)
+    router.route("/auth/login").apiHandler(authHandler::login)
+    router.route("/auth/register").apiHandler(authHandler::register)
+
+    ActionHandler(vertx).bindRouter(router)
+    UserManageHandler(vertx).bindRouter(router)
 
     val port = config.getInteger("http.port", 8890)
 

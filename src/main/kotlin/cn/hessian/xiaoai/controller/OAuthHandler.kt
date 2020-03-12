@@ -1,4 +1,4 @@
-package cn.hessian.xiaoai.handler
+package cn.hessian.xiaoai.controller
 
 import io.netty.handler.codec.http.HttpResponseStatus
 import io.vertx.core.Vertx

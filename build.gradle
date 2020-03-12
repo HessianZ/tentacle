@@ -39,6 +39,9 @@ dependencies {
   implementation 'ch.qos.logback:logback-classic:1.2.3'
   implementation 'commons-codec:commons-codec:1.14'
   compile group: 'com.jcraft', name: 'jsch', version: '0.1.55'
+  compile 'com.fasterxml.jackson.module:jackson-module-parameter-names:2.9.9'
+  compile 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.9.9'
+  compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.9'
 
   testImplementation "io.vertx:vertx-junit5:$vertxVersion"
   testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitJupiterEngineVersion"
@@ -46,11 +49,11 @@ dependencies {
 }
 
 compileKotlin {
-  kotlinOptions.jvmTarget = '12'
+  kotlinOptions.jvmTarget = '11'
 }
 
 compileTestKotlin {
-  kotlinOptions.jvmTarget = '12'
+  kotlinOptions.jvmTarget = '11'
 }
 
 
